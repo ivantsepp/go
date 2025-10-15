@@ -636,9 +636,10 @@ func (d *compressor) close() error {
 	if d.err != nil {
 		return d.err
 	}
-	if d.w.writeStoredHeader(0, true); d.w.err != nil {
+	if d.w.writeFixedHeader(true); d.w.err != nil {
 		return d.w.err
 	}
+	d.w.writeCode(fixedLiteralEncoding.codes[endBlockMarker])
 	d.w.flush()
 	if d.w.err != nil {
 		return d.w.err
